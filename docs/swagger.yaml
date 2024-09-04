@@ -1,0 +1,486 @@
+basePath: /api
+definitions:
+  controller.Input:
+    properties:
+      book_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  models.Author:
+    properties:
+      books:
+        items:
+          $ref: '#/definitions/models.Book'
+        type: array
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.Book:
+    properties:
+      author:
+        $ref: '#/definitions/models.Author'
+      authorID:
+        type: integer
+      id:
+        type: integer
+      isbn:
+        type: string
+      publishedAt:
+        type: string
+      rentedBooks:
+        items:
+          $ref: '#/definitions/models.RentedBook'
+        type: array
+      title:
+        type: string
+    type: object
+  models.RentedBook:
+    properties:
+      book:
+        $ref: '#/definitions/models.Book'
+      bookID:
+        type: integer
+      id:
+        type: integer
+      rentedAt:
+        type: string
+      returnedAt:
+        type: string
+      userID:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      rentedBooks:
+        items:
+          $ref: '#/definitions/models.RentedBook'
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server Library server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Library API
+  version: "1.0"
+paths:
+  /author:
+    get:
+      consumes:
+      - application/json
+      description: Get list of all authors
+      operationId: get-all-authors
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Author'
+            type: array
+      summary: Get All Authors
+      tags:
+      - author
+    post:
+      consumes:
+      - application/json
+      description: Create a new author
+      operationId: create-author
+      parameters:
+      - description: Author Info
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/models.Author'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'status: author created'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Author
+      tags:
+      - author
+  /author/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete author by ID
+      operationId: delete-author
+      parameters:
+      - description: Author ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: author deleted'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete Author
+      tags:
+      - author
+    get:
+      consumes:
+      - application/json
+      description: Get author details by ID
+      operationId: get-author-by-id
+      parameters:
+      - description: Author ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Author'
+      summary: Get Author by ID
+      tags:
+      - author
+    put:
+      consumes:
+      - application/json
+      description: Update author details by ID
+      operationId: update-author
+      parameters:
+      - description: Author ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Author Info
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/models.Author'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: author updated'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update Author
+      tags:
+      - author
+  /book:
+    get:
+      consumes:
+      - application/json
+      description: Get list of all books
+      operationId: get-all-books
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Book'
+            type: array
+        "500":
+          description: internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get All Books
+      tags:
+      - books
+    post:
+      consumes:
+      - application/json
+      description: Create a new book
+      operationId: create-book
+      parameters:
+      - description: Book Info
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/models.Book'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'status: book created'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Book
+      tags:
+      - books
+  /book/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete book by ID
+      operationId: delete-book
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: book deleted'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete Book
+      tags:
+      - books
+    get:
+      consumes:
+      - application/json
+      description: Get book details by ID
+      operationId: get-book-by-id
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+      summary: Get Book by ID
+      tags:
+      - books
+    put:
+      consumes:
+      - application/json
+      description: Update book details by ID
+      operationId: update-book
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Book Info
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/models.Book'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: book updated'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update Book
+      tags:
+      - books
+  /rent:
+    post:
+      consumes:
+      - application/json
+      description: Rent a book
+      operationId: rent-book
+      parameters:
+      - description: Rent Info
+        in: body
+        name: rent
+        required: true
+        schema:
+          $ref: '#/definitions/controller.Input'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: book rented'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Rent Book
+      tags:
+      - books
+  /rent/return:
+    post:
+      consumes:
+      - application/json
+      description: Return a rented book
+      operationId: return-book
+      parameters:
+      - description: Return Info
+        in: body
+        name: return
+        required: true
+        schema:
+          $ref: '#/definitions/controller.Input'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: book returned'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Return Book
+      tags:
+      - books
+  /user:
+    get:
+      consumes:
+      - application/json
+      description: Get list of all users
+      operationId: get-all-users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Get All Users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      operationId: create-user
+      parameters:
+      - description: User Info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'status: user created'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create User
+      tags:
+      - users
+  /user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete user by ID
+      operationId: delete-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: user deleted'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete User
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Get user details by ID
+      operationId: get-user-by-id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Get User by ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update user details by ID
+      operationId: update-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User Info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: user updated'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update User
+      tags:
+      - users
+swagger: "2.0"
